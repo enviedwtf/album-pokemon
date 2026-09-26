@@ -4,6 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Mis álbumes Pokémon</title>
+<link rel="preconnect" href="https://assets.tcgdex.net">
+<link rel="dns-prefetch" href="https://assets.tcgdex.net">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -136,6 +138,21 @@ input.inp::placeholder{ color:var(--soft); }
   box-shadow:inset -14px 0 22px -14px rgba(0,0,0,.55), 0 2px 0 rgba(0,0,0,.25); }
 .page.right{ border-radius:4px 10px 10px 4px; box-shadow:inset 14px 0 22px -14px rgba(0,0,0,.55), 0 2px 0 rgba(0,0,0,.25); }
 .page.blank .pockets{ opacity:.35; }
+.snaps .snap{ padding:8px 0; border-top:1px solid rgba(255,255,255,.08); align-items:center; }
+.snaps .snap small{ font-size:12px; }
+.page.incover{ background:
+    radial-gradient(120% 90% at 30% 20%, color-mix(in oklab, var(--cover), white 10%), transparent 60%),
+    repeating-linear-gradient(35deg, rgba(255,255,255,.025) 0 2px, rgba(0,0,0,.035) 2px 4px),
+    color-mix(in oklab, var(--cover), black 12%);
+  box-shadow:inset -16px 0 24px -14px rgba(0,0,0,.6), inset 0 0 0 1px rgba(255,255,255,.06); }
+.page.incover.back{ box-shadow:inset 16px 0 24px -14px rgba(0,0,0,.6), inset 0 0 0 1px rgba(255,255,255,.06); }
+.page.incover::before{ content:""; position:absolute; inset:12px; border:2px dashed color-mix(in oklab, var(--cover), white 30%); border-radius:8px; opacity:.45; pointer-events:none; }
+.page.incover .ghost{ visibility:hidden; }
+.icmark{ position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px; padding:12%; text-align:center; pointer-events:none; }
+.icmark b{ font:600 clamp(16px,1.8vw,24px)/1.2 var(--display); color:color-mix(in oklab, var(--cover), white 55%); letter-spacing:.02em;
+  text-shadow:0 1px 0 rgba(255,255,255,.12), 0 -1px 0 rgba(0,0,0,.45); }
+.iclogo{ max-width:70%; opacity:.9; filter:drop-shadow(0 3px 6px rgba(0,0,0,.45)); }
+.iclogo img{ max-width:100%; max-height:120px; object-fit:contain; }
 .plab{ display:flex; justify-content:space-between; align-items:baseline; margin:0 2px 10px; font-weight:800; font-size:13px; color:color-mix(in oklab, var(--page), white 70%); }
 .plab .rng{ color:var(--accent); font-variant-numeric:tabular-nums; }
 .pockets{ display:grid; grid-template-columns:repeat(var(--cols),1fr); gap:10px; }
@@ -162,10 +179,19 @@ input.inp::placeholder{ color:var(--soft); }
 .slot.own{ box-shadow:0 4px 10px rgba(0,0,0,.45); }
 .slot .sheen{ position:absolute; inset:0; pointer-events:none; z-index:2; mix-blend-mode:color-dodge; opacity:.55;
   background:linear-gradient(125deg, hsl(350 90% 60%/.0) 10%, hsl(40 100% 60%/.55) 30%, hsl(160 90% 60%/.45) 45%, hsl(220 95% 65%/.5) 60%, hsl(290 85% 65%/.0) 80%); background-size:200% 200%; }
-.slot .sheen.rev{ -webkit-mask:linear-gradient(#000 0 0), linear-gradient(#000 0 0) 50% 28%/87% 41% no-repeat; -webkit-mask-composite:xor; mask:linear-gradient(#000 0 0) exclude, linear-gradient(#000 0 0) 50% 28%/87% 41% no-repeat; }
+.slot .sheen.rev{ opacity:.7; background:
+   repeating-linear-gradient(62deg, rgba(255,255,255,0) 0 3px, rgba(255,255,255,.22) 3px 4px),
+   linear-gradient(125deg, hsl(200 90% 65%/.0) 5%, hsl(190 95% 70%/.55) 25%, hsl(280 85% 72%/.5) 45%, hsl(40 100% 65%/.5) 65%, hsl(160 90% 65%/.0) 85%);
+   background-size:auto, 220% 220%; background-position:0 0, 30% 30%;  -webkit-mask:linear-gradient(#000 0 0), linear-gradient(#000 0 0) 50% 19%/88% 36% no-repeat; -webkit-mask-composite:xor; mask:linear-gradient(#000 0 0) exclude, linear-gradient(#000 0 0) 50% 19%/88% 36% no-repeat; }
 .gray .slot.miss .sheen{ display:none; }
 .slot .num,.slot .vb,.slot .dup{ position:absolute; z-index:4; bottom:5px; padding:2px 6px; border-radius:6px; font:800 11px/1.25 var(--body); font-variant-numeric:tabular-nums; pointer-events:none; }
 .slot .num{ left:5px; background:rgba(8,10,30,.8); color:#fff; }
+.slot.rev .num{ background:#07070c; color:#fff; box-shadow:0 0 0 1.5px #fff, 0 0 6px rgba(255,255,255,.35); overflow:hidden; }
+.slot.rev .num::after{ content:""; position:absolute; inset:0; border-radius:inherit; pointer-events:none; mix-blend-mode:screen;
+  background:linear-gradient(105deg, transparent 30%, rgba(255,255,255,.0) 38%, rgba(190,230,255,.75) 47%, rgba(255,200,240,.7) 53%, transparent 62%); background-size:260% 100%;
+  animation:numglint 3.2s ease-in-out infinite; }
+@keyframes numglint{ 0%, 55%{ background-position:120% 0; } 100%{ background-position:-40% 0; } }
+.slot.rev.miss .num::after{ animation:none; opacity:0; }
 .slot .vb{ left:50%; translate:-50% 0; background:linear-gradient(90deg,#ff9ec7,#ffe27a,#8ff0d2,#9fb8ff); color:#20124a; }
 .slot .dup{ right:5px; background:var(--gold); color:var(--gold-ink); }
 .slot .chk{ position:absolute; z-index:4; right:5px; top:5px; width:25px; height:25px; border-radius:50%; padding:0; display:grid; place-items:center;
@@ -259,8 +285,8 @@ input.inp::placeholder{ color:var(--soft); }
   mix-blend-mode:color-dodge; opacity:calc(var(--o) * var(--sp,0));
   -webkit-mask-image:radial-gradient(circle at var(--mx) var(--my), #000 0, transparent 60%); mask-image:radial-gradient(circle at var(--mx) var(--my), #000 0, transparent 60%); }
 .fx-glare{ background:radial-gradient(farthest-corner circle at var(--mx) var(--my), rgba(255,255,255,.8) 0%, rgba(255,255,255,.18) 28%, rgba(0,0,0,.4) 95%); mix-blend-mode:overlay; opacity:calc(.25 + var(--o) * .65); }
-.front[data-mode="holo"] .fx-foil, .front[data-mode="holo"] .fx-lines, .front[data-mode="holo"] .fx-pat{ -webkit-mask:linear-gradient(#000 0 0) 50% 28%/87% 41% no-repeat; mask:linear-gradient(#000 0 0) 50% 28%/87% 41% no-repeat; }
-.front[data-mode="reverse"] .fx-foil, .front[data-mode="reverse"] .fx-lines, .front[data-mode="reverse"] .fx-pat{ -webkit-mask:linear-gradient(#000 0 0), linear-gradient(#000 0 0) 50% 28%/87% 41% no-repeat; -webkit-mask-composite:xor; mask:linear-gradient(#000 0 0) exclude, linear-gradient(#000 0 0) 50% 28%/87% 41% no-repeat; }
+.front[data-mode="holo"] .fx-foil, .front[data-mode="holo"] .fx-lines, .front[data-mode="holo"] .fx-pat{ -webkit-mask:linear-gradient(#000 0 0) 50% 19%/88% 36% no-repeat; mask:linear-gradient(#000 0 0) 50% 19%/88% 36% no-repeat; }
+.front[data-mode="reverse"] .fx-foil, .front[data-mode="reverse"] .fx-lines, .front[data-mode="reverse"] .fx-pat{ -webkit-mask:linear-gradient(#000 0 0), linear-gradient(#000 0 0) 50% 19%/88% 36% no-repeat; -webkit-mask-composite:xor; mask:linear-gradient(#000 0 0) exclude, linear-gradient(#000 0 0) 50% 19%/88% 36% no-repeat; }
 .front[data-gold] .fx-foil{ background:repeating-linear-gradient(118deg, #fff2b0 0%, #f3c64a 6%, #b8860b 12%, #fff4c2 18%, #e0a92e 24%, #fff2b0 30%); background-size:260% 260%; background-position:var(--bx) var(--by); filter:brightness(.75) contrast(1.3); }
 .front[data-pat="cracked"] .fx-pat{ background:conic-gradient(from 10deg at 30% 40%, #fff3 0 12deg, transparent 12deg 40deg, #fff2 40deg 60deg, transparent 60deg 120deg, #fff3 120deg 135deg, transparent 135deg), conic-gradient(from 200deg at 70% 70%, #fff3 0 18deg, transparent 18deg 70deg, #fff2 70deg 95deg, transparent 95deg); background-size:60px 70px, 80px 60px; }
 .front[data-pat="cosmos"] .fx-pat{ background:radial-gradient(circle, #fff 0 1.4px, transparent 2.2px), radial-gradient(circle, #9ff 0 2px, transparent 3px); background-size:18px 18px, 44px 38px; }
@@ -309,7 +335,7 @@ body[data-foil="off"] .fx:not(.fx-glare){ display:none; }
   .fly{ width:min(460px, 74vw, calc((100vh - 250px) * 600 / 825)); }
 }
 @media (prefers-reduced-motion: reduce){
-  .spread.turn .page, .slot.pulse{ animation:none; }
+  .spread.turn .page, .slot.pulse, .slot.rev .num::after{ animation:none; }
   .bk, .pbar i{ transition:none; }
 }
 </style>
@@ -426,6 +452,8 @@ if (DB.prices){ LS.set('pkalbum.prices', DB.prices); delete DB.prices; }
 const SAVED_PRICES = LS.get('pkalbum.prices', null);
 if (SAVED_PRICES && SAVED_PRICES.date > PRICE_DATE0){ PRICES = Object.assign({}, PRICE0, SAVED_PRICES.p); PRICE_DATE = SAVED_PRICES.date; }
 function save(){ DB.updated = Date.now(); LS.set(STORE_KEY, DB); schedulePush(); }
+function saveAlbums(){ DB.albAt = Date.now(); save(); }
+function savePrefs(){ DB.prefAt = Date.now(); save(); }
 addEventListener('pagehide', () => { if (typeof pushT !== 'undefined' && pushT && SYNC && SYNC.gist){ clearTimeout(pushT); try{ fetch(GH + '/gists/' + SYNC.gist, { method:'PATCH', keepalive:true, headers:{ Authorization:'Bearer ' + SYNC.token, Accept:'application/vnd.github+json', 'Content-Type':'application/json' }, body:JSON.stringify({ files:{ [SYNC_FILE]:{ content:payload() } } }) }); }catch(e){} } });
 const ui = Object.assign({ page:{}, missing:{} }, LS.get('pkalbum.ui', {}));
 const saveUI = () => LS.set('pkalbum.ui', ui);
@@ -466,12 +494,12 @@ function imgFail(img){
   clearTimeout(imgSaveT); imgSaveT = setTimeout(() => LS.set('pkalbum.img2', imgState), 800);
 }
 window.imgFail = imgFail;
-function imgTag(sl, q, cls){
+function imgTag(sl, q, cls, eager){
   const own = customImg(sl);
   if (own) return `<img src="${own}" alt="" ${cls ? `class="${cls}"` : ''}>`;
   const lang = firstLang(sl);
   if (!lang) return `<span class="ph" style="--tc:${TYPE_COLOR[sl.t] || '#9aa'}"><b>${esc(sl.name)}</b><small>${esc(rarEs(sl.r))}, sin imagen</small></span>`;
-  return `<img src="${imgUrl(sl, q, lang)}" alt="" loading="lazy" decoding="async" data-card="${esc(sl.s + '|' + sl.l)}" data-q="${q}" data-lang="${lang}" data-es="${sl.es ? 1 : 0}" data-name="${esc(sl.name)}" onload="imgOk()" onerror="imgFail(this)">`;
+  return `<img src="${imgUrl(sl, q, lang)}" alt="" ${eager ? 'fetchpriority="high"' : 'loading="lazy"'} decoding="async" data-card="${esc(sl.s + '|' + sl.l)}" data-q="${q}" data-lang="${lang}" data-es="${sl.es ? 1 : 0}" data-name="${esc(sl.name)}" onload="imgOk()" onerror="imgFail(this)">`;
 }
 function setLogo(setId, cls, cands){
   const set = SETS[setId]; if (!set) return '';
@@ -700,13 +728,13 @@ function wireAlbumForm(a, isNew){
     if (a.kind === 'set'){ a.variants = [...document.querySelectorAll('input[name=vars]:checked')].map(x => x.value); const p = document.querySelector('#plc [aria-pressed="true"]'); if (p) a.placement = p.dataset.v; }
     a.pockets = segVal('pk') || 9; a.gray = $('#f_gray').checked; a.theme = readTheme();
     if (isNew) DB.albums.push(a);
-    invalidate(a); save(); closeSheet();
+    invalidate(a); saveAlbums(); closeSheet();
     if (isNew) go('/album/' + a.id); else render();
     toast(isNew ? `Álbum «${a.name}» creado.` : 'Cambios guardados.');
   };
   if ($('#f_del')) $('#f_del').onclick = () => {
     const b = $('#f_del'); if (!b.dataset.arm){ b.dataset.arm = 1; b.textContent = 'Pulsa otra vez para eliminar'; return; }
-    DB.albums = DB.albums.filter(x => x !== a); save(); closeSheet(); go('/'); toast(`Álbum «${a.name}» eliminado. Las cartas marcadas se conservan.`);
+    DB.albums = DB.albums.filter(x => x !== a); saveAlbums(); closeSheet(); go('/'); toast(`Álbum «${a.name}» eliminado. Las cartas marcadas se conservan.`);
   };
 }
 function openCreate(setId){
@@ -730,7 +758,7 @@ function renderAlbum(app){
   const ls = albumLogoSet(a);
   app.innerHTML = `<nav class="crumbs"><a href="#/">‹ Mis álbumes</a><span>/</span><span>${esc(a.name)}</span></nav>
     <header class="ahead" style="${themeStyle(a)}"><div class="alogo">${ls && a.kind !== 'custom' ? setLogo(ls) : ''}</div>
-      <div><h1>${esc(a.name)}</h1><div class="meta" id="ameta"></div><div class="pbar"><i id="apbar"></i></div><div class="count" id="acount"></div><div class="money" id="amoney"></div></div>
+      <div><h1>${esc(a.name)}</h1><div class="meta" id="ameta"></div><div class="pbar"><i id="apbar"></i></div><div class="count" id="acount"></div><div class="money" id="amoney"></div><div class="money" id="awarm" aria-live="off"></div></div>
       <div class="row"><button class="btn" id="acust">🎨 Personalizar</button></div></header>
     <div class="tools">
       <div class="searchbox">${SEARCH_ICON}<label class="sr" for="aq">Buscar en el álbum</label><input class="inp" id="aq" type="search" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="ares" placeholder="Buscar por nombre o número… (p. ej. «Mew», «137»)"><ul class="results" id="ares" role="listbox" hidden></ul></div>
@@ -755,17 +783,29 @@ function renderAlbum(app){
 function pagesOf(a){ return Math.max(1, Math.ceil((viewList(a).length + (a.kind === 'custom' ? 1 : 0)) / perPage(a))); }
 function drawAlbum(anim){
   const a = curAlbum, n = pagesOf(a), v = narrow() ? 1 : 2, pp = perPage(a);
-  let p = ui.page[a.id] || 0; p = Math.min(Math.max(0, p - (p % v)), (n - 1) - ((n - 1) % v)); ui.page[a.id] = p;
-  const last = Math.min(p + v, n);
-  $('#awhere').textContent = last - p > 1 ? `Páginas ${p + 1}–${last} de ${n}` : `Página ${p + 1} de ${n}`;
-  $('#aprev').disabled = p === 0; $('#anext').disabled = p + v >= n;
+  let p = ui.page[a.id] || 0;
+  // En pantalla ancha el archivador se abre como uno real: a la izquierda la contraportada y la página 1 a la derecha.
+  if (v === 2){ p = Math.floor((p + 1) / 2) * 2 - 1; p = Math.min(Math.max(-1, p), Math.floor(n / 2) * 2 - 1); }
+  else p = Math.min(Math.max(0, p), n - 1);
+  ui.page[a.id] = p;
+  const first = Math.max(0, p), last = Math.min(p + v, n);
+  $('#awhere').textContent = last - first > 1 ? `Páginas ${first + 1}–${last} de ${n}` : `Página ${first + 1} de ${n}`;
+  $('#aprev').disabled = p <= (v === 2 ? -1 : 0); $('#anext').disabled = p + v >= n;
   const L = viewList(a);
   const secs = albumSections(a, albumSlots(a));
   const allIdx = new Map(albumSlots(a).map((sl, i) => [sl, i]));
   const opts = ['<option value="">Ir a…</option>'];
   for (const [label, start] of secs){ const idx = L.findIndex(sl => sl && allIdx.get(sl) >= start); if (idx >= 0) opts.push(`<option value="${idx}">${esc(label)}, pág. ${Math.floor(idx / pp) + 1}</option>`); }
   $('#agoto').innerHTML = opts.join(''); $('#agoto').hidden = opts.length < 3;
+  const inner = (side, back) => {
+    let ghost = ''; for (let i = 0; i < pp; i++) ghost += '<div class="slot empty"></div>';
+    const ls = albumLogoSet(a);
+    const mark = back ? '' : `<div class="icmark">${ls && a.kind !== 'custom' ? `<div class="iclogo">${setLogo(ls)}</div>` : ''}<b>${esc(a.name)}</b></div>`;
+    return `<div class="page ${side} incover${back ? ' back' : ''}" aria-hidden="true"><div class="plab"><span></span></div><div class="pockets ghost">${ghost}</div>${mark}</div>`;
+  };
   const page = (pi, side) => {
+    if (v === 2 && pi < 0) return inner(side, false);
+    if (v === 2 && pi >= n) return inner(side, true);
     const cards = L.slice(pi * pp, pi * pp + pp); const real = cards.filter(Boolean);
     const rng = a.kind === 'custom' ? '' : real.length ? (real[0].num === real[real.length - 1].num ? real[0].num : `${real[0].num} – ${real[real.length - 1].num}`) : '';
     let html = '';
@@ -781,7 +821,7 @@ function drawAlbum(anim){
   const sp = $('#spread');
   sp.innerHTML = v === 2 ? page(p, 'left') + '<div class="spine" aria-hidden="true"><i></i><i></i><i></i></div>' + page(p + 1, 'right') : page(p, 'left');
   if (anim && !reduced()){ sp.classList.remove('turn'); void sp.offsetWidth; sp.classList.add('turn'); }
-  drawHead(a); saveUI();
+  drawHead(a); saveUI(); warmAlbum(a, p, v);
 }
 function drawHead(a){
   const st = albumStats(a), pct = st.total ? st.own / st.total * 100 : 0;
@@ -799,12 +839,12 @@ function slotHTML(sl, gi, a){
   const lv = FOIL_LV[sl.r] ?? 0, isRev = sl.sig.startsWith('reverse');
   const sheen = isRev ? '<span class="sheen rev"></span>' : (lv >= 2 || sl.sig.includes('|')) && own ? '<span class="sheen"></span>' : '';
   const vb = sl.extra ? `<span class="vb">${esc(variantBadge(sl.sig))}</span>` : '';
-  return `<div class="slot ${own ? 'own' : 'miss'}" data-gi="${gi}" data-k="${esc(sl.key)}" ${a && a.kind === 'custom' ? 'draggable="true"' : ''}>
-    <button class="face" data-act="open" aria-label="Ver ${esc(label)}">${imgTag(sl, 'low')}</button>${sheen}
+  return `<div class="slot ${own ? 'own' : 'miss'}${isRev ? ' rev' : ''}" data-gi="${gi}" data-k="${esc(sl.key)}" ${a && a.kind === 'custom' ? 'draggable="true"' : ''}>
+    <button class="face" data-act="open" aria-label="Ver ${esc(label)}">${imgTag(sl, 'low', '', true)}</button>${sheen}
     <button class="chk" data-act="toggle" aria-pressed="${own}" aria-label="La tengo: ${esc(label)}">${CHECK}</button>
     <span class="num">${esc(sl.num)}</span>${vb}${n > 1 ? `<span class="dup">×${n}</span>` : ''}</div>`;
 }
-function turn(d){ const a = curAlbum, v = narrow() ? 1 : 2, n = pagesOf(a), np = (ui.page[a.id] || 0) + d * v; if (np < 0 || np >= n) return; ui.page[a.id] = np; drawAlbum(true); }
+function turn(d){ const a = curAlbum, v = narrow() ? 1 : 2, n = pagesOf(a), np = (ui.page[a.id] || 0) + d * v; if (np < (v === 2 ? -1 : 0) || np >= n) return; ui.page[a.id] = np; drawAlbum(true); }
 function refreshSlots(key){
   document.querySelectorAll(`.slot[data-k="${CSS.escape(key)}"]`).forEach(el => {
     const gi = +el.dataset.gi; const sl = curAlbum && viewList(curAlbum)[gi];
@@ -830,13 +870,14 @@ function wireSpread(a){
     const cards = a.cards; while (cards.length <= Math.max(from, to)) cards.push(null);
     [cards[from], cards[to]] = [cards[to], cards[from]];
     while (cards.length && cards[cards.length - 1] == null) cards.pop();
-    from = null; invalidate(a); save(); drawAlbum(false);
+    from = null; invalidate(a); saveAlbums(); drawAlbum(false);
   };
   sp.ondragend = () => { from = null; document.querySelectorAll('.dragover').forEach(x => x.classList.remove('dragover')); };
 }
 function setCount(k, n){
   n = Math.max(0, Math.min(99, n | 0));
   if (n) DB.counts[k] = n; else delete DB.counts[k];
+  (DB.ct = DB.ct || {})[k] = Date.now();
   save();
   if (route.name === 'album'){ if (ui.missing[curAlbum.id]) drawAlbum(false); else { refreshSlots(k); drawHead(curAlbum); } }
   else if (route.name === 'trade') renderTrade($('#app'));
@@ -848,6 +889,50 @@ function toggle(k){
   else { const el = document.querySelector(`.slot[data-k="${CSS.escape(k)}"]`); openViewer(viewList(curAlbum), +el.dataset.gi, el); toast(`Tienes ${n} copias: ajusta la cantidad aquí.`); }
 }
 addEventListener('resize', () => { if (route.name === 'album'){ const v = narrow(); if (v !== window.__nv){ window.__nv = v; drawAlbum(false); } } });
+
+/* ---------- Precarga de imágenes ---------- */
+const warmed = new Set();
+let warmQ = [], warmActive = 0, warmAlbumId = null, warmTotal = 0, warmDone = 0;
+const saveData = () => !!(navigator.connection && navigator.connection.saveData);
+function warmOne(sl, q, cb){
+  const lang = firstLang(sl); if (!lang || customImg(sl)){ cb && cb(); return; }
+  const id = sl.s + '|' + sl.l, key = id + '|' + q;
+  if (warmed.has(key)){ cb && cb(); return; }
+  warmed.add(key);
+  const L = langsFor(sl); let li = L.indexOf(lang);
+  const im = new Image(); im.decoding = 'async';
+  im.onload = () => { if (L[li] !== L[0]) imgState[id] = L[li]; cb && cb(); };
+  im.onerror = () => { li++; if (li < L.length) im.src = imgUrl(sl, q, L[li]); else { sessNone.add(id); cb && cb(); } };
+  im.src = imgUrl(sl, q, lang);
+}
+function pumpWarm(){
+  while (warmActive < 4 && warmQ.length){
+    if (document.hidden) return;
+    const sl = warmQ.shift(); warmActive++;
+    warmOne(sl, 'low', () => { warmActive--; warmDone++; paintWarm(); pumpWarm(); });
+  }
+}
+function paintWarm(){
+  const el = document.getElementById('awarm'); if (!el) return;
+  el.textContent = warmDone < warmTotal ? `Preparando imágenes: ${warmDone} de ${warmTotal}` : '';
+}
+function warmAlbum(a, p, v){
+  const L = viewList(a).filter(Boolean), pp = perPage(a), p0 = Math.max(0, p);
+  const near = L.slice(Math.max(0, (p0 - v) * pp), p0 * pp).concat(L.slice((p0 + v) * pp, (p0 + 2 * v) * pp));
+  near.forEach(sl => warmOne(sl, 'low'));
+  if (saveData()) return;
+  if (warmAlbumId !== a.id){
+    warmAlbumId = a.id;
+    const start = p0 * pp, order = L.slice(start).concat(L.slice(0, start));
+    warmQ = order.filter(sl => !warmed.has(sl.s + '|' + sl.l + '|low'));
+    warmTotal = warmQ.length; warmDone = 0;
+    const go = () => pumpWarm();
+    'requestIdleCallback' in window ? requestIdleCallback(go, { timeout:1500 }) : setTimeout(go, 600);
+  }
+  paintWarm();
+}
+document.addEventListener('visibilitychange', () => { if (!document.hidden) pumpWarm(); });
+addEventListener('hashchange', () => { warmQ = []; warmAlbumId = null; });
 
 /* ---------- Buscador del álbum ---------- */
 function searchSlots(list, term){
@@ -924,7 +1009,7 @@ function openAdder(a, at){
     const b = e.target.closest('button[data-k]'); if (!b) return;
     while (a.cards.length < pos) a.cards.push(null);
     if (a.cards[pos] == null) a.cards[pos] = b.dataset.k; else a.cards.splice(pos, 0, b.dataset.k);
-    pos++; invalidate(a); save();
+    pos++; invalidate(a); saveAlbums();
     if (!b.querySelector('.in')) b.querySelector('.im').insertAdjacentHTML('beforeend', '<span class="in">En el binder</span>');
     const sl = slotFromKey(b.dataset.k); toast(`${sl ? sl.name : 'Carta'} añadida al binder.`);
   };
@@ -987,8 +1072,18 @@ function foilFor(sl){
 function paintCard(){
   const sl = V.list[V.i], own = customImg(sl), lang = firstLang(sl), ph = $('#vph');
   if (own || lang){ vimg.hidden = false; ph.hidden = true; vimg.onerror = null;
-    vimg.src = own || imgUrl(sl, 'high', lang); vimg.alt = `${sl.num} ${sl.name}`;
-    if (!own){ const L = langsFor(sl); vimg.onerror = () => { const i = L.indexOf(vimg.dataset.lang || lang); const nl = L[i + 1]; if (nl){ vimg.dataset.lang = nl; vimg.src = imgUrl(sl, 'high', nl); } else { vimg.hidden = true; showPh(sl); } }; vimg.dataset.lang = lang; }
+    vimg.alt = `${sl.num} ${sl.name}`;
+    if (own) vimg.src = own;
+    else {
+      const L = langsFor(sl), token = (V.tok = (V.tok || 0) + 1);
+      vimg.dataset.lang = lang; vimg.src = imgUrl(sl, 'low', lang);
+      vimg.onerror = () => { const i = L.indexOf(vimg.dataset.lang); const nl = L[i + 1]; if (nl){ vimg.dataset.lang = nl; vimg.src = imgUrl(sl, 'low', nl); } else { vimg.hidden = true; showPh(sl); } };
+      const hi = new Image(); let hl = L.indexOf(lang);
+      hi.onload = () => { if (V.tok === token && V.list){ vimg.onerror = null; vimg.src = hi.src; } };
+      hi.onerror = () => { hl++; if (hl < L.length) hi.src = imgUrl(sl, 'high', L[hl]); };
+      hi.src = imgUrl(sl, 'high', lang);
+      [V.list[V.i - 1], V.list[V.i + 1]].forEach(n => n && warmOne(n, 'high'));
+    }
   } else { vimg.hidden = true; showPh(sl); }
   const f = foilFor(sl), soft = DB.prefs.foil === 'soft' ? .55 : 1;
   vfront.dataset.mode = f.mode; if (f.pat) vfront.dataset.pat = f.pat; else delete vfront.dataset.pat; if (f.gold) vfront.dataset.gold = ''; else delete vfront.dataset.gold;
@@ -1014,7 +1109,7 @@ function renderPill(){
     if (!ok){ toast('No se pudo guardar la imagen en este navegador.'); return; } if (customURLs[id]) URL.revokeObjectURL(customURLs[id]); customURLs[id] = URL.createObjectURL(f);
     paintCard(); if (route.name === 'album') drawAlbum(false); toast('Imagen guardada en este navegador.'); };
   if ($('#vimgdel')) $('#vimgdel').onclick = async () => { const id = sl.s + '|' + sl.l; await idbDel(id); URL.revokeObjectURL(customURLs[id]); delete customURLs[id]; paintCard(); if (route.name === 'album') drawAlbum(false); };
-  if ($('#vremove')) $('#vremove').onclick = () => { const i = a.cards.indexOf(sl.key); if (i >= 0){ a.cards[i] = null; while (a.cards.length && a.cards[a.cards.length - 1] == null) a.cards.pop(); invalidate(a); save(); } closeViewer(); drawAlbum(false); toast(`${sl.name} quitada del binder.`); };
+  if ($('#vremove')) $('#vremove').onclick = () => { const i = a.cards.indexOf(sl.key); if (i >= 0){ a.cards[i] = null; while (a.cards.length && a.cards[a.cards.length - 1] == null) a.cards.pop(); invalidate(a); saveAlbums(); } closeViewer(); drawAlbum(false); toast(`${sl.name} quitada del binder.`); };
   if (focusId){ const f = document.getElementById(focusId) || $('#vhave') || $('#vplus'); f && f.focus(); }
 }
 function openViewer(list, i, fromEl){
@@ -1027,8 +1122,8 @@ function openViewer(list, i, fromEl){
     const r1 = fly.getBoundingClientRect();
     let from = 'translate(0, 40px) scale(.6)';
     if (fromEl){ const r0 = fromEl.getBoundingClientRect(); const dx = (r0.left + r0.width / 2) - (r1.left + r1.width / 2), dy = (r0.top + r0.height / 2) - (r1.top + r1.height / 2); from = `translate(${dx}px, ${dy}px) scale(${r0.width / r1.width})`; }
-    fly.animate([{ transform:from }, { transform:'translate(0,0) scale(1.06)', offset:.7 }, { transform:'none' }], { duration:820, easing:'cubic-bezier(.2,.8,.2,1)' });
-    spin.animate([{ transform:'rotateY(0deg) rotateZ(0deg)' }, { transform:'rotateY(-200deg) rotateZ(-4deg)', offset:.45 }, { transform:'rotateY(-360deg) rotateZ(0deg)' }], { duration:1000, easing:'cubic-bezier(.35,.1,.25,1)' });
+    fly.animate([{ transform:from }, { transform:'translate(0,0) scale(1.06)', offset:.7 }, { transform:'none' }], { duration:680, easing:'cubic-bezier(.2,.8,.2,1)' });
+    spin.animate([{ transform:'rotateY(0deg) rotateZ(0deg)' }, { transform:'rotateY(-200deg) rotateZ(-4deg)', offset:.45 }, { transform:'rotateY(-360deg) rotateZ(0deg)' }], { duration:820, easing:'cubic-bezier(.35,.1,.25,1)' });
     $('#vbg').animate([{ opacity:0 }, { opacity:1 }], { duration:350, easing:'ease-out' });
   }
   $('#vgyro').hidden = !('DeviceOrientationEvent' in window) || !matchMedia('(pointer: coarse)').matches;
@@ -1050,8 +1145,8 @@ function closeViewer(instant){
 function stepViewer(d){
   const ni = V.i + d; if (!V.list || ni < 0 || ni >= V.list.length) return;
   if (reduced()){ V.i = ni; paintCard(); return; }
-  const an = spin.animate([{ transform:'rotateY(0)' }, { transform:`rotateY(${d > 0 ? -180 : 180}deg)`, offset:.5 }, { transform:`rotateY(${d > 0 ? -360 : 360}deg)` }], { duration:560, easing:'ease-in-out' });
-  setTimeout(() => { V.i = ni; paintCard(); }, 280);
+  const an = spin.animate([{ transform:'rotateY(0)' }, { transform:`rotateY(${d > 0 ? -180 : 180}deg)`, offset:.5 }, { transform:`rotateY(${d > 0 ? -360 : 360}deg)` }], { duration:460, easing:'ease-in-out' });
+  setTimeout(() => { V.i = ni; paintCard(); }, 230);
   an.onfinish = () => {};
 }
 function resetTilt(hard){ V.tx = 0; V.ty = 0; V.to = 0; V.pointer = false; if (hard){ V.rx = V.ry = V.vx = V.vy = 0; V.o = 0; V.mx = V.my = 50; } }
@@ -1121,11 +1216,15 @@ function openGlobalSettings(){
     </fieldset>
     <fieldset class="fset"><legend>Copia de seguridad</legend><p>Incluye tus álbumes, colores y cantidades. Acepta también la copia de la versión anterior del álbum.</p>
       <div class="row"><button class="btn" id="s_export">Exportar colección</button><label class="btn" style="position:relative;overflow:hidden">Importar colección<input type="file" id="s_import" accept=".json" style="position:absolute;inset:0;opacity:0;cursor:pointer"></label></div></fieldset>
+    <fieldset class="fset"><legend>Copias automáticas</legend><p>Este navegador guarda por su cuenta una copia de tu colección al abrir la app, antes de recibir cambios de otro dispositivo y antes de importar. Si algo desaparece, restaura desde aquí.</p>
+      ${(() => { const L = LS.get(SNAP_KEY, []); return L.length ? '<div class="snaps">' + L.map((s, i) => [s, i]).reverse().map(([s, i]) => `<div class="row snap"><span style="flex:1 1 200px">${new Date(s.t).toLocaleString('es-ES', { day:'numeric', month:'short', hour:'2-digit', minute:'2-digit' })} · <b>${s.n} ${s.n === 1 ? 'carta' : 'cartas'}</b><br><small class="muted">${esc(s.reason || '')}</small></span><button class="btn" data-snap="${i}">Restaurar</button></div>`).join('') + '</div>' : '<p class="muted">Aún no hay copias en este navegador.</p>'; })()}
+    </fieldset>
     <div class="foot"><button class="btn gold" id="s_ok">Hecho</button></div>`);
+  document.querySelectorAll('[data-snap]').forEach(btn => btn.onclick = () => { if (!btn.dataset.arm){ btn.dataset.arm = 1; btn.textContent = '¿Seguro? Pulsa otra vez'; return; } restoreSnapshot(+btn.dataset.snap); });
   $('#s_pmode').value = DB.prefs.priceMode;
-  $('#s_pmode').onchange = e => { DB.prefs.priceMode = +e.target.value; save(); };
+  $('#s_pmode').onchange = e => { DB.prefs.priceMode = +e.target.value; savePrefs(); };
   ['s_lang','s_foil'].forEach(id => $('#' + id).onclick = e => { const b = e.target.closest('button'); if (!b) return; $('#' + id).querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', x === b));
-    if (id === 's_lang'){ DB.prefs.lang = b.dataset.v; for (const k in imgState) delete imgState[k]; sessNone.clear(); LS.set('pkalbum.img2', imgState); } else { DB.prefs.foil = b.dataset.v; document.body.dataset.foil = b.dataset.v; } save(); });
+    if (id === 's_lang'){ DB.prefs.lang = b.dataset.v; for (const k in imgState) delete imgState[k]; sessNone.clear(); LS.set('pkalbum.img2', imgState); } else { DB.prefs.foil = b.dataset.v; document.body.dataset.foil = b.dataset.v; } savePrefs(); });
   $('#s_ok').onclick = () => { closeSheet(); render(); };
   if ($('#s_syncon')) $('#s_syncon').onclick = async () => { const v = $('#s_token').value; if (!v.trim()){ toast('Pega primero la clave de GitHub.'); return; } $('#s_syncon').disabled = true; if (await connectSync(v)) openGlobalSettings(); else $('#s_syncon').disabled = false; };
   if ($('#s_syncnow')) $('#s_syncnow').onclick = () => pull(true);
@@ -1140,10 +1239,11 @@ function openGlobalSettings(){
   if ($('#s_backdel')) $('#s_backdel').onclick = async () => { await idbDel('__back'); URL.revokeObjectURL(customURLs.__back); delete customURLs.__back; openGlobalSettings(); };
   $('#s_export').onclick = () => download('mis-albumes-pokemon.json', JSON.stringify({ app:'mis-albumes-pokemon', v:2, exported:new Date().toISOString(), albums:DB.albums, counts:DB.counts, prefs:DB.prefs }, null, 1), 'application/json');
   $('#s_import').onchange = async e => { const f = e.target.files[0]; e.target.value = ''; if (!f) return;
-    try{ const j = JSON.parse(await f.text()); let n = 0;
-      if (j.v === 2 && j.counts){ DB.albums = j.albums || DB.albums; DB.counts = j.counts; DB.prefs = Object.assign(DB.prefs, j.prefs || {}); n = Object.keys(DB.counts).length; }
+    try{ const j = JSON.parse(await f.text()); let n = 0; const before = Object.assign({}, DB.counts); snapshot('Antes de importar un fichero');
+      if ((j.v === 2 || j.v === 3) && j.counts && !Array.isArray(j.counts)){ DB.albums = j.albums || DB.albums; DB.counts = j.counts; DB.prefs = Object.assign(DB.prefs, j.prefs || {}); n = Object.keys(DB.counts).length; }
       else { const pairs = Array.isArray(j.counts) ? j.counts : Array.isArray(j.owned) ? j.owned.map(k => [k, 1]) : Array.isArray(j) ? j.map(k => [k, 1]) : null; if (!pairs) throw 0;
         for (const [k, c] of pairs){ const [s, l] = String(k).split('/'); const row = rowOf(s, l); if (!row) continue; const key = `${s}|${l}|${TAB.v[row[4][0][0]]}`; DB.counts[key] = Math.max(DB.counts[key] || 0, c | 0); n++; } }
+      stampAll(before); DB.albAt = Date.now(); DB.prefAt = Date.now();
       slotCache.clear(); save(); closeSheet(); render(); toast(`Colección importada: ${n} cartas.`);
     }catch(err){ toast('Ese fichero no es una copia de tus álbumes.'); } };
 }
@@ -1154,50 +1254,87 @@ let SYNC = LS.get(SYNC_KEY, null);            // { token, gist, last }
 const syncStat = { state: SYNC ? 'idle' : 'off', msg:'' };
 let pushT = 0, pushing = null, lastPull = 0;
 async function gh(path, opts = {}){
-  const r = await fetch(GH + path, { ...opts, headers:{ Authorization:'Bearer ' + SYNC.token, Accept:'application/vnd.github+json', 'X-GitHub-Api-Version':'2022-11-28', ...(opts.body ? { 'Content-Type':'application/json' } : {}) } });
+  const r = await fetch(GH + path, { cache:'no-store', ...opts, headers:{ Authorization:'Bearer ' + SYNC.token, Accept:'application/vnd.github+json', 'X-GitHub-Api-Version':'2022-11-28', ...(opts.body ? { 'Content-Type':'application/json' } : {}) } });
   if (!r.ok){ const e = new Error('GitHub ' + r.status); e.status = r.status; throw e; }
   return r.status === 204 ? null : r.json();
 }
-function payload(){ return JSON.stringify({ app:'mis-albumes-pokemon', v:2, updated:DB.updated || 0, albums:DB.albums, counts:DB.counts, prefs:{ lang:DB.prefs.lang, priceMode:DB.prefs.priceMode, foil:DB.prefs.foil } }); }
+function payload(){ return JSON.stringify({ app:'mis-albumes-pokemon', v:3, updated:DB.updated || 0, albums:DB.albums, albAt:DB.albAt || 0, counts:DB.counts, ct:DB.ct || {},
+  prefs:{ lang:DB.prefs.lang, priceMode:DB.prefs.priceMode, foil:DB.prefs.foil }, prefAt:DB.prefAt || 0 }); }
 async function readRemote(g){
   g = g || await gh('/gists/' + SYNC.gist);
   const f = g.files && g.files[SYNC_FILE]; if (!f) return null;
-  let txt = f.content; if (f.truncated) txt = await (await fetch(f.raw_url)).text();
+  let txt = f.content; if (f.truncated) txt = await (await fetch(f.raw_url, { cache:'no-store' })).text();
   return JSON.parse(txt);
 }
-function applyRemote(rem){
-  DB.albums = rem.albums || DB.albums; DB.counts = rem.counts || {}; DB.prefs = Object.assign(DB.prefs, rem.prefs || {}); DB.updated = rem.updated || Date.now();
+/* Combinar carta a carta: cada carta guarda cuándo se cambió por última vez y gana el cambio más reciente.
+   Si ninguno de los dos lados sabe cuándo se cambió (datos de versiones antiguas), se queda el número mayor:
+   así una carta marcada nunca se pierde por sincronizar. */
+const canon = o => JSON.stringify(Object.keys(o || {}).sort().map(k => [k, o[k]]));
+function mergeWith(rem){
+  const lc = DB.counts || {}, lt = DB.ct || {}, rc = rem.counts || {}, rt = rem.ct || {};
+  const counts = {}, ct = {};
+  new Set([...Object.keys(lc), ...Object.keys(rc), ...Object.keys(lt), ...Object.keys(rt)]).forEach(k => {
+    const x = lt[k] || 0, y = rt[k] || 0;
+    const v = x > y ? (lc[k] || 0) : y > x ? (rc[k] || 0) : Math.max(lc[k] || 0, rc[k] || 0);
+    if (v) counts[k] = v; if (x || y) ct[k] = Math.max(x, y);
+  });
+  const la = DB.albAt || 0, ra = rem.albAt || 0;
+  let albums;
+  if (ra > la) albums = rem.albums || DB.albums;
+  else if (la > ra) albums = DB.albums;
+  else { const ids = new Set(DB.albums.map(x => x.id)); albums = DB.albums.concat((rem.albums || []).filter(x => !ids.has(x.id))); }
+  const prefs = (rem.prefAt || 0) > (DB.prefAt || 0) ? Object.assign({}, DB.prefs, rem.prefs || {}) : DB.prefs;
+  return { counts, ct, albums, albAt:Math.max(la, ra), prefs, prefAt:Math.max(DB.prefAt || 0, rem.prefAt || 0) };
+}
+const sigOf = o => canon(o.counts) + JSON.stringify(o.albums) + JSON.stringify([o.prefs.lang, o.prefs.priceMode, o.prefs.foil]);
+function applyMerged(m){
+  snapshot('Antes de recibir cambios de otro dispositivo');
+  Object.assign(DB, m); DB.updated = Date.now();
   document.body.dataset.foil = DB.prefs.foil; slotCache.clear(); LS.set(STORE_KEY, DB);
   if (!V.list) render(); else renderPill();
 }
 function syncFail(e){
   syncStat.state = 'error';
   syncStat.msg = e.status === 401 ? 'GitHub no acepta la clave: puede haber caducado o no tener permiso de Gists. Conecta de nuevo con una clave nueva.'
+    : e.status === 403 ? 'GitHub rechaza guardar los cambios (error 403): la clave no tiene permiso de escritura en Gists. Crea una clave con Gists en «Read and write» y conecta de nuevo. Tus cartas siguen guardadas aquí.'
     : e.status === 404 ? 'No se encuentra el Gist de la colección. Desconecta y vuelve a conectar este dispositivo.'
-    : 'No hay conexión con GitHub ahora mismo. Los cambios quedan guardados aquí y se subirán después.';
+    : e.status ? `GitHub ha respondido con un error (${e.status}). Los cambios quedan guardados aquí y se subirán después.`
+    : 'No hay conexión con GitHub desde esta red o este navegador. Los cambios quedan guardados aquí y se subirán después.';
   paintSync();
 }
 function markOk(){ syncStat.state = 'ok'; SYNC.last = Date.now(); LS.set(SYNC_KEY, SYNC); paintSync(); }
-function schedulePush(){ if (!SYNC || !SYNC.gist) return; clearTimeout(pushT); pushT = setTimeout(push, 1500); }
-async function push(){
-  if (!SYNC || !SYNC.gist) return;
-  if (pushing){ await pushing; }
+function schedulePush(){ if (!SYNC || !SYNC.gist) return; clearTimeout(pushT); pushT = setTimeout(() => { pushT = 0; syncNow(); }, 1500); }
+// Un solo ciclo para todo: leer lo que hay en GitHub, combinarlo con lo de aquí y escribir solo si hace falta.
+let syncing = null, again = false;
+async function syncNow(announce){
+  if (!SYNC || !SYNC.gist) return false;
+  if (syncing){ again = true; return syncing; }
   syncStat.state = 'busy'; paintSync();
-  pushing = gh('/gists/' + SYNC.gist, { method:'PATCH', body:JSON.stringify({ files:{ [SYNC_FILE]:{ content:payload() } } }) })
-    .then(markOk).catch(syncFail).finally(() => { pushing = null; });
-  return pushing;
+  syncing = (async () => {
+    let got = false;
+    try{
+      const rem = await readRemote();
+      const m = rem ? mergeWith(rem) : null;
+      if (m && sigOf(m) !== sigOf(DB)){ applyMerged(m); got = true; }
+      if (!rem || sigOf(m) !== sigOf(rem) || canon(m.ct) !== canon(rem.ct || {})){
+        await gh('/gists/' + SYNC.gist, { method:'PATCH', body:JSON.stringify({ files:{ [SYNC_FILE]:{ content:payload() } } }) });
+      }
+      markOk();
+      if (got && announce) toast('Colección actualizada con los cambios de tus otros dispositivos.');
+    }catch(e){ syncFail(e); }
+    return got;
+  })();
+  const r = await syncing; syncing = null;
+  if (again){ again = false; return syncNow(); }
+  return r;
 }
 async function pull(force){
   if (!SYNC || !SYNC.gist) return;
   if (!force && Date.now() - lastPull < 15000) return;
   lastPull = Date.now();
-  try{
-    const rem = await readRemote();
-    if (rem && (rem.updated || 0) > (DB.updated || 0)){ applyRemote(rem); markOk(); if (force) toast('Colección actualizada desde tus otros dispositivos.'); }
-    else if (!rem || (DB.updated || 0) > (rem.updated || 0)) await push();
-    else markOk();
-  }catch(e){ syncFail(e); }
+  return syncNow(force);
 }
+const push = () => syncNow();
 async function connectSync(token){
   SYNC = { token:token.trim() };
   syncStat.state = 'busy'; paintSync();
@@ -1210,10 +1347,8 @@ async function connectSync(token){
     }
     if (found){
       SYNC.gist = found.id; LS.set(SYNC_KEY, SYNC);
-      const rem = await readRemote(await gh('/gists/' + found.id));
-      const localHas = Object.keys(DB.counts).length > 0 || DB.albums.length > 2;
-      if (rem && (!localHas || (rem.updated || 0) >= (DB.updated || 0))){ applyRemote(rem); toast('Conectado: se ha cargado tu colección guardada en GitHub.'); }
-      else { await push(); toast('Conectado: se ha subido la colección de este dispositivo.'); }
+      await syncNow();
+      toast('Conectado: se ha juntado la colección de este dispositivo con la guardada en GitHub.');
     } else {
       const g = await gh('/gists', { method:'POST', body:JSON.stringify({ description:'Mis álbumes Pokémon (copia sincronizada)', public:false, files:{ [SYNC_FILE]:{ content:payload() } } }) });
       SYNC.gist = g.id; LS.set(SYNC_KEY, SYNC); toast('Conectado: tu colección ya se guarda en un Gist privado.');
@@ -1222,6 +1357,30 @@ async function connectSync(token){
   }catch(e){ const st = e.status; SYNC = null; LS.set(SYNC_KEY, null); syncStat.state = 'off'; paintSync();
     toast(st === 401 || st === 403 ? 'GitHub no acepta esa clave. Revisa que tenga permiso de lectura y escritura en Gists.' : 'No se pudo conectar con GitHub. Revisa la conexión e inténtalo otra vez.'); return false; }
 }
+
+/* ---------- Copias automáticas en este navegador ---------- */
+const SNAP_KEY = 'pkalbum.snaps';
+function snapshot(reason){
+  const n = Object.keys(DB.counts || {}).length; if (!n) return;
+  const list = LS.get(SNAP_KEY, []), c = canon(DB.counts);
+  if (list.length && canon(list[list.length - 1].counts) === c) return;
+  list.push({ t:Date.now(), n, reason, counts:DB.counts, albums:DB.albums });
+  while (list.length > 10) list.shift();
+  try{ LS.set(SNAP_KEY, list); }catch(e){ while (list.length > 2){ list.shift(); try{ LS.set(SNAP_KEY, list); break; }catch(_){} } }
+}
+function stampAll(before){
+  const now = Date.now(); DB.ct = DB.ct || {};
+  new Set([...Object.keys(before || {}), ...Object.keys(DB.counts)]).forEach(k => { if ((before || {})[k] !== DB.counts[k]) DB.ct[k] = now; });
+}
+function restoreSnapshot(i){
+  const list = LS.get(SNAP_KEY, []), s = list[i]; if (!s) return;
+  snapshot('Antes de restaurar una copia');
+  const before = DB.counts; DB.counts = Object.assign({}, s.counts); stampAll(before);
+  if (s.albums){ DB.albums = s.albums; DB.albAt = Date.now(); }
+  slotCache.clear(); save(); closeSheet(); render(); toast(`Copia restaurada: ${s.n} cartas.`);
+}
+snapshot('Al abrir la app');
+
 function disconnectSync(){ SYNC = null; localStorage.removeItem(SYNC_KEY); syncStat.state = 'off'; paintSync(); toast('Este dispositivo ya no se sincroniza. Tus datos siguen aquí y en GitHub.'); }
 function syncText(){
   if (!SYNC) return 'Tu colección solo está en este navegador. Conecta la sincronización en Ajustes para verla en el móvil, en casa y en el trabajo.';
